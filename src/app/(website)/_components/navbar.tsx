@@ -47,7 +47,7 @@ const LandingPageNavBar = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId:any) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
