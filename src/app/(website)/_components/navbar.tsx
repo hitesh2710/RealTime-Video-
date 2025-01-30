@@ -61,7 +61,7 @@ const LandingPageNavBar = () => {
   };
 
   useEffect(() => {
-    let interval;
+    let interval:any
     if (isAutoPlaying) {
       interval = setInterval(nextSlide, 3000);
     }

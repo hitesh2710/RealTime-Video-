@@ -436,10 +436,8 @@ export const getWixContent = async () => {
     })
 
     const videos = await myWixClient.items
-      .queryDataItems({
-        dataCollectionId: 'vidsphere',
-      })
-      .find()
+    .query('vidsphere')  
+    .find();  
 
     const videoIds = videos.items.map((v) => v.data?.title)
 
