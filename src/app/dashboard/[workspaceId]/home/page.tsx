@@ -23,9 +23,9 @@ const Home = async (props: Props) => {
             A Message From The VidSphere Team
           </h1>
 
-          {post?.data && (
-            <div className="mt-5 flex justify-center">
-              <HowToPost {...post.data} />
+          {post && (
+            <div className="mt-5 flex justify-center ">
+              <HowToPost />
             </div>
           )}
         </div>

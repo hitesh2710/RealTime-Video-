@@ -1,44 +1,62 @@
 import React from "react";
-import parse from "html-react-parser";
 
 const HowToPost = () => {
   return (
-    <div className="flex flex-col gap-y-12 lg:col-span-2 mt-10 p-6 bg-gray-50 rounded-2xl shadow-md">
-      {/* Main Heading */}
-      <h6 className="text-2xl font-bold text-center text-gray-800 leading-tight">
-        Empower Your Team with AI-Powered Real-Time Video Sharing
-      </h6>
+    <div className="flex flex-col gap-y-10 lg:col-span-2 mt-10 p-8 bg-white/[0.04] rounded-2xl shadow-lg border border-white/10 text-white/90">
+      {/* Heading */}
+      <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">
+        Empower Your Team with AI-Driven Real-Time Video Sharing
+      </h2>
 
-      {/* Content Section */}
-      <div className="post--container [&>h5]:text-xl [&>h5]:font-semibold [&>h5]:text-gray-700 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:text-gray-600 [&>ul]:mt-4 [&>h6]:mt-6 [&>h6]:text-lg [&>h6]:text-gray-700">
-        <h5>
-          Our platform revolutionizes video collaboration and client outreach. Effortlessly record, stream, and share videos in real-time with built-in AI features. Highlights include:
-        </h5>
+      {/* Content */}
+      <div className="post--container space-y-6">
+        <p className="text-base md:text-lg text-white/80 font-normal leading-relaxed">
+          Our platform reshapes the way teams communicate. Record, stream, and
+          share videos instantly with powerful AI that works behind the scenes.
+        </p>
 
-        <ul className="space-y-4">
+        <ul className="space-y-4 pl-6 list-disc marker:text-cyan-300 text-white/80">
           <li>
-            <span className="font-medium text-gray-800">Seamless Video Recording & Streaming:</span> Capture in 720p/1080p with screen and webcam options.
+            <span className="font-semibold bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">
+              Record & Stream Instantly:
+            </span>{" "}
+            Capture in 720p/1080p with screen, webcam, or combined mode.
           </li>
+
           <li>
-            <span className="font-medium text-gray-800">AI-Powered Insights:</span> Generate summaries, transcriptions, titles, and descriptions for every video.
+            <span className="font-semibold bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">
+              AI-Powered Insights:
+            </span>{" "}
+            Auto summaries, transcripts, titles, and SEO-optimized descriptions.
           </li>
+
           <li>
-            <span className="font-medium text-gray-800">Collaboration Made Easy:</span> Invite team members to workspaces and track viewer engagement.
+            <span className="font-semibold bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">
+              Effortless Collaboration:
+            </span>{" "}
+            Invite teammates, manage shared workspaces, and track engagement.
           </li>
+
           <li>
-            <span className="font-medium text-gray-800">Effortless Sharing:</span> Custom thumbnails, dynamic embed links, and email notifications for first views.
+            <span className="font-semibold bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">
+              One-Click Sharing:
+            </span>{" "}
+            Custom thumbnails, smart embed links, and instant view notifications.
           </li>
+
           <li>
-            <span className="font-medium text-gray-800">Flexible Plans:</span> Explore free and pro tiers tailored to your needs.
+            <span className="font-semibold bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">
+              Flexible Plans:
+            </span>{" "}
+            From a free starter tier to advanced pro features for scaling teams.
           </li>
         </ul>
 
-        <h6>
-          Available on web and desktop with Next.js and Electron, powered by AWS, Cloudfront, and Stripe. Experience smarter video sharing today!
-        </h6>
+        <p className="text-base md:text-lg text-white/80 leading-relaxed">
+          Available on web and desktop (Next.js + Electron), powered by AWS,
+          CloudFront, and Stripe for secure and scalable performance.
+        </p>
       </div>
-
-    
     </div>
   );
 };

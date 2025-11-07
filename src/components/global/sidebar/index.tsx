@@ -44,7 +44,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const dispatch = useDispatch();
 
   // data
-  const { data: wsData, isFetched, isLoading } = useQueryData(["user-workspaces"], getWorkSpaces);
+  const { data: wsData, isFetched, isPending } = useQueryData(["user-workspaces"], getWorkSpaces);
   const { data: notifData } = useQueryData(["user-notifications"], getNotifications);
 
   // typed narrowing with guards
@@ -80,7 +80,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
       : 0;
 
   // skeleton while loading
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="hidden h-full w-64 flex-none border-r border-white/10 bg-[#0E0E13] md:block">
         <div className="p-4">

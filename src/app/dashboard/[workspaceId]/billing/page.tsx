@@ -18,12 +18,8 @@ export default async function BillingPage(_: Props) {
   const price = isPro ? "$5" : "$0";
   const priceSuffix = "/month";
 
-  const renewalISO = payment?.data?.subscription?.renewalDate as
-    | string
-    | undefined;
-  const cancelAtPeriodEnd =
-    (payment?.data?.subscription?.cancelAtPeriodEnd as boolean | undefined) ??
-    false;
+  const renewalISO =  undefined;
+  const cancelAtPeriodEnd = false;
 
   const renewalText = renewalISO
     ? new Date(renewalISO).toLocaleDateString(undefined, {
