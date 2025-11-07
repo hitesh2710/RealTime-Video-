@@ -48,9 +48,10 @@ const plans = [
   },
 ];
 
-function classNames(...c) {
+function classNames(...c: Array<string | false | null | undefined>) {
   return c.filter(Boolean).join(" ");
 }
+
 
 export default function VidSphereLanding() {
   const [open, setOpen] = useState(false);
