@@ -1,13 +1,14 @@
-import React from 'react'
+// src/components/global/sidebar/workspace-placeholder.tsx
+import React from "react";
 
-type Props = { children: React.ReactNode }
+type Props = { children: React.ReactNode };
 
 const WorkspacePlaceholder = ({ children }: Props) => {
   return (
-    <span className="bg-[#545454] flex items-center font-bold justify-center w-8 px-2 h-7 rounded-sm text-[#1D1D1D]">
+    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white/[0.12] text-sm font-bold text-white/90 ring-1 ring-white/10">
       {children}
     </span>
-  )
-}
+  );
+};
 
-export default WorkspacePlaceholder
+export default WorkspacePlaceholder;

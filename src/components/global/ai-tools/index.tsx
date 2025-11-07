@@ -85,7 +85,7 @@ const AiTools = ({ plan, trial, videoId }: Props) => {
             <div className="flex flex-col">
               <h3 className="textmdg">Summary</h3>
               <p className="text-muted-foreground text-sm">
-                Generate a description for your video using AI.
+                Generate a summary for your video using AI.
               </p>
             </div>
           </div>
@@ -94,7 +94,7 @@ const AiTools = ({ plan, trial, videoId }: Props) => {
               <FileTextIcon color="#a22fe0" />
             </div>
             <div className="flex flex-col">
-              <h3 className="textmdg">Summary</h3>
+              <h3 className="textmdg">Description</h3>
               <p className="text-muted-foreground text-sm">
                 Generate a description for your video using AI.
               </p>

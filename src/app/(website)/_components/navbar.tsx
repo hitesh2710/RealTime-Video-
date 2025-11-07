@@ -1,238 +1,314 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { User } from 'lucide-react';
-import { ArrowLeft } from 'lucide-react';
-import { ArrowRight } from 'lucide-react';
-import { Mail } from 'lucide-react';
-import { Phone } from 'lucide-react';
-import { MapPin } from 'lucide-react';
-import { Check } from 'lucide-react';
-import Link from 'next/link'
+"use client";
+import React, { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Check, Menu, X, User, ArrowRight, Mail, Phone, MapPin, Play, Pause } from "lucide-react";
+
+
 const services = [
-  { title: 'Real Time Video Recording & Streaming', image: '/d1.jpg' },
-  { title: 'Workspaces for Team Collaboration', image: '/d5.jpeg' },
-  { title: 'AI Transcriptions for Videos', image: '/d2.jpeg' },
-  { title: 'AI Video Summary & Titles', image: '/d4.png' },
-  { title: 'Upload Videos to AWS', image: '/d4.jpeg' }
+  { title: "Real-Time Video Recording & Streaming", image: "https://images.unsplash.com/photo-1524253482453-3fed8d2fe12b?auto=format&fit=crop&w=1200&q=80" },
+  { title: "Workspaces for Team Collaboration", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80" },
+  { title: "AI Transcriptions for Videos", image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80" },
+  { title: "AI Video Summary & Titles", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" },
+  { title: "Upload Videos to AWS", image: "https://images.unsplash.com/photo-1669865015890-4dbd855de0f7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1200" },
 ];
 
-const pricingPlans = [
+const plans = [
   {
-    name: 'Free',
-    price: '$0',
+    name: "Free",
+    price: "$0",
+    blurb: "Start creating in minutes.",
     features: [
-      'Video Recording & Streaming',
-      'Basic Storage (2GB)',
-      'One-time AI Transcription',
-      'One-time AI Summary',
-      'Basic Support'
-    ]
+      "Video recording & streaming",
+      "Basic storage (2 GB)",
+      "1× AI transcription",
+      "1× AI summary",
+      "Community support",
+      "Share Video"
+    ],
+    cta: "Get Started",
   },
   {
-    name: 'Pro',
-    price: '$5',
+    name: "Pro",
+    price: "$99",
+    suffix: "/month",
+    blurb: "Unlimited AI power for creators & teams.",
     features: [
-      'Everything in Free',
-      'Unlimited AI Transcriptions',
-      'Unlimited AI Summaries',
-      'Advanced Storage (50GB)',
-      'Priority Support',
-      'Team Collaboration'
-    ]
-  }
+      "Everything in Free",
+      "Unlimited AI transcriptions",
+      "Unlimited AI summaries",
+      "Advanced storage (50 GB)",
+      "Priority support",
+      "Team collaboration",
+    ],
+    featured: true,
+    cta: "Upgrade to Pro",
+  },
 ];
 
-const LandingPageNavBar = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+function classNames(...c) {
+  return c.filter(Boolean).join(" ");
+}
 
-  const scrollToSection = (sectionId:any) => {
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
+export default function VidSphereLanding() {
+  const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [autoplay, setAutoplay] = useState(true);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % services.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + services.length) % services.length);
-  };
-
+  // carousel autoplay
   useEffect(() => {
-    let interval:any
-    if (isAutoPlaying) {
-      interval = setInterval(nextSlide, 3000);
-    }
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+    if (!autoplay) return;
+    const id = setInterval(() => setCurrent((p) => (p + 1) % services.length), 3500);
+    return () => clearInterval(id);
+  }, [autoplay]);
 
-  const visibleSlides = () => {
-    const slides = [];
-    for (let i = 0; i < 3; i++) {
-      const index = (currentSlide + i) % services.length;
-      slides.push(services[index]);
-    }
-    return slides;
-  };
+  const visible = useMemo(() => {
+    const arr: typeof services = [] as any;
+    for (let i = 0; i < 3; i++) arr.push(services[(current + i) % services.length]);
+    return arr;
+  }, [current]);
 
   return (
-    <div className="min-h-screen bg-black">
-      <nav className="flex w-full justify-between items-center p-4 bg-black border-b border-white/10 fixed top-0 z-50">
-        <div className="text-2xl font-bold flex items-center gap-x-3 text-white">
-          <img
-            alt="logo"
-            src="/logo.svg"
-            className="ml-2 w-10 h-10 transform hover:scale-110 transition-transform duration-300"
-          />
-          <span className="text-white">VidSphere</span>
-        </div>
+    <div className="min-h-screen text-white">
+      {/* Decorative background */}
+      <div className="pointer-events-none fixed inset-0 -z-20">
+        <div className="absolute inset-0 bg-[radial-gradient(75%_60%_at_50%_-10%,rgba(99,102,241,0.25),rgba(14,14,20,0))]" />
+        <div className="absolute -top-24 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-600/25 via-sky-500/20 to-cyan-400/10 blur-3xl" />
+      </div>
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0)_30%)]" />
 
-        <div className="hidden gap-x-8 items-center lg:flex">
-          {[
-            { name: 'Home', section: 'home' },
-            { name: 'Pricing', section: 'pricing' },
-            { name: 'Contact', section: 'contact' }
-          ].map((item) => (
-            <button
-              key={item.name}
-              onClick={() => scrollToSection(item.section)}
-              className="text-gray-300 hover:text-white transform hover:scale-105 transition-all duration-300 text-lg"
-            >
-              {item.name}
-            </button>
-          ))}
-        </div>
-        <Link href="/auth/sign-in">
-        <Button 
-          onClick={() => {}} 
-          className="bg-white text-black hover:bg-gray-200 px-6 py-2 rounded-none transform hover:scale-105 transition-all duration-300"
-        >
-          <User className="mr-2 h-5 w-5" />
-          Login
-        </Button>
-        </Link>
-      </nav>
+      {/* Nav */}
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+          <Link href="#home" className="group flex items-center gap-3">
+            <img alt="logo" src="/logo.svg" className="h-9 w-9 transition-transform group-hover:scale-110" />
+            <span className="text-lg font-medium tracking-tight md:text-xl">VidSphere</span>
+          </Link>
 
-      <div id="home" className="pt-24 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-white mb-4 transform hover:scale-105 transition-transform duration-300">
-            WHAT WILL YOU DO TODAY?
-          </h2>
-        </div>
-
-        <div className="relative px-12">
-          <div className="flex gap-6 transition-all duration-500">
-            {visibleSlides().map((service, index) => (
-              <div 
-                key={index}
-                className="flex-1 bg-white/5 backdrop-blur-sm rounded-none overflow-hidden transform hover:scale-105 transition-all duration-500 border border-white/10"
-              >
-                <div className="relative h-48">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-2 transform hover:translate-x-2 transition-transform duration-300">
-                    {service.title}
-                  </h3>
-                </div>
-              </div>
+          <div className="hidden items-center gap-8 md:flex">
+            {[
+              { href: "#home", label: "Home" },
+              { href: "#features", label: "Features" },
+              { href: "#pricing", label: "Pricing" },
+              { href: "#contact", label: "Contact" },
+            ].map((l) => (
+              <a key={l.href} href={l.href} className="text-sm text-white/70 transition-colors hover:text-white">
+                {l.label}
+              </a>
             ))}
+            <Link href="/auth/sign-in">
+              <Button className="rounded-xl bg-white text-black shadow-sm transition hover:scale-[1.02] hover:bg-white/90"> <User className="mr-2 h-4 w-4" /> Login</Button>
+            </Link>
           </div>
 
-          <button 
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 p-3 bg-white text-black rounded-none shadow-lg z-10 transform hover:scale-110 hover:bg-gray-200 transition-all duration-300"
-          >
-            <ArrowLeft className="h-6 w-6" />
+          <button className="md:hidden" onClick={() => setOpen((s) => !s)}>
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
-          <button 
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 p-3 bg-white text-black rounded-none shadow-lg z-10 transform hover:scale-110 hover:bg-gray-200 transition-all duration-300"
-          >
-            <ArrowRight className="h-6 w-6" />
-          </button>
-        </div>
-      </div>
+        </nav>
+        {open && (
+          <div className="border-t border-white/10 bg-black/80 px-4 py-3 md:hidden">
+            <div className="flex flex-col gap-4">
+              {["#home", "#features", "#pricing", "#contact"].map((href) => (
+                <a key={href} href={href} onClick={() => setOpen(false)} className="text-white/90">
+                  {href.replace("#", "").toUpperCase()}
+                </a>
+              ))}
+              <Link href="/auth/sign-in" onClick={() => setOpen(false)}>
+                <Button className="w-full rounded-xl bg-white text-black"> <User className="mr-2 h-4 w-4" /> Login</Button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </header>
 
-      <div id="pricing" className="py-24 px-4 max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-white text-center mb-12">Choose Your Plan</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {pricingPlans.map((plan) => (
-            <div 
-              key={plan.name} 
-              className={`border border-white/10 p-8 backdrop-blur-sm hover:border-white/30 transition-all duration-300 ${
-                plan.name === 'Pro' ? 'bg-white/5' : ''
-              }`}
+      {/* Hero */}
+      <section id="home" className="mx-auto max-w-7xl px-4 pt-16 md:pt-24">
+        <div className="grid items-center gap-12 md:grid-cols-2">
+          <div>
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-balance text-4xl font-semibold leading-tight md:text-6xl"
             >
-              <h3 className="text-2xl font-bold text-white mb-4">{plan.name}</h3>
-              <p className="text-4xl font-bold text-white mb-6">
-                {plan.price}
-                {plan.name === 'Pro' && <span className="text-sm">/month</span>}
-              </p>
-              <ul className="space-y-4 min-h-[280px]">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="text-gray-300 flex items-center gap-2">
-                    <Check className="h-4 w-4 text-white" />
-                    {feature}
+              Create ✦ Collaborate ✦ Ship
+              <br />
+              <span className="bg-gradient-to-r from-indigo-300 via-sky-300 to-cyan-200 bg-clip-text text-transparent">video faster</span>
+            </motion.h1>
+            <p className="mt-5 max-w-xl text-lg text-white/70">
+              Record in real time, transcribe with AI, summarize, and share to workspaces. A delightful UI with serious performance.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="#pricing"><Button size="lg" className="rounded-xl bg-white text-black shadow-md transition hover:-translate-y-0.5 hover:bg-white/90">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>
+              <Link href="#features" className="rounded-xl border border-white/15 px-4 py-2 text-white/80 backdrop-blur transition-all hover:border-white/30 hover:text-white">Explore features</Link>
+            </div>
+            <div className="mt-6 flex items-center gap-3 text-sm text-white/60">
+              <div className="flex -space-x-2">
+                {["/avatar1.png", "/avatar2.png", "/avatar3.png"].map((src, i) => (
+                  <img key={i} src={src} alt="user" className="h-7 w-7 rounded-full border border-white/10" />
+                ))}
+              </div>
+              <span>Trusted by creators and teams worldwide</span>
+            </div>
+          </div>
+
+          {/* Carousel */}
+          <div className="relative">
+            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 shadow-2xl backdrop-blur-xl">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                {visible.map((card, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: idx * 0.08 }}
+                    className="group overflow-hidden rounded-2xl border border-white/10 bg-black/50 ring-1 ring-white/5 transition hover:ring-white/20"
+                  >
+                    <div className="relative h-44 w-full overflow-hidden">
+                      <img src={card.image} alt={card.title} className="h-full w-full object-cover opacity-95 transition duration-500 group-hover:scale-105" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-sm font-medium leading-snug text-white/90">{card.title}</h3>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {services.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrent(i)}
+                      className={`h-1.5 w-6 rounded-full transition-all ${i === current ? "bg-white" : "bg-white/20 hover:bg-white/40"}`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20" onClick={() => setAutoplay((s) => !s)}>
+                    {autoplay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  </Button>
+                  <Button size="sm" variant="secondary" className="rounded-full bg-white text-black hover:bg-white/90" onClick={() => setCurrent((p) => (p - 1 + services.length) % services.length)}>
+                    Prev
+                  </Button>
+                  <Button size="sm" variant="secondary" className="rounded-full bg-white text-black hover:bg-white/90" onClick={() => setCurrent((p) => (p + 1) % services.length)}>
+                    Next
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature trio */}
+      <section id="features" className="mx-auto mt-24 max-w-7xl px-4">
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            { k: "Latency", v: "Ultra‑low for real‑time" },
+            { k: "AI Stack", v: "Transcribe • Summarize • Title" },
+            { k: "Teams", v: "Workspaces, roles, invites" },
+          ].map((it, i) => (
+            <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl transition hover:shadow-xl">
+              <div className="text-sm text-white/50">{it.k}</div>
+              <div className="mt-1 text-lg font-medium">{it.v}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="mx-auto mt-24 max-w-7xl px-4">
+        <div className="text-center">
+          <h2 className="text-3xl font-semibold md:text-4xl">Choose your plan</h2>
+          <p className="mx-auto mt-2 max-w-2xl text-white/60">Start free. Go Pro when you need unlimited AI and team features.</p>
+        </div>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {plans.map((p) => (
+            <div
+              key={p.name}
+              className={`relative rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl transition hover:shadow-2xl ${p.featured ? "ring-1 ring-white/20" : ""}`}
+            >
+              {p.featured && (
+                <Badge className="absolute -top-3 right-4 rounded-full bg-white text-black">Most popular</Badge>
+              )}
+              <div className="flex items-baseline justify-between">
+                <h3 className="text-2xl font-semibold">{p.name}</h3>
+                <div className="text-4xl font-bold">{p.price}{p.suffix && <span className="ml-1 text-base text-white/70">{p.suffix}</span>}</div>
+              </div>
+              <p className="mt-2 text-white/70">{p.blurb}</p>
+              <ul className="mt-5 space-y-3">
+                {p.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-white/85">
+                    <Check className="mt-0.5 h-4 w-4" /> {f}
                   </li>
                 ))}
               </ul>
-              {/* <Button className="w-full mt-8 bg-white text-black hover:bg-gray-200 rounded-none transform hover:scale-105 transition-all duration-300">
-                {plan.name === 'Free' ? 'Get Started' : 'Upgrade to Pro'}
-              </Button> */}
+              <div className="mt-6">
+                <Button className={`w-full rounded-xl ${p.featured ? "bg-white text-black hover:bg-white/90" : "bg-white/10 hover:bg-white/20"}`}>{p.cta}</Button>
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <footer id="contact" className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="py-12 border-b border-white/10">
-            <div className="flex items-center gap-3 justify-center">
-              <img
-                alt="logo"
-                src="/logo.svg"
-                className="w-10 h-10"
-              />
-              <span className="text-2xl font-bold text-white">VidSphere</span>
+      {/* Social proof */}
+      <section className="mx-auto mt-24 max-w-7xl px-4">
+        <div className="grid gap-5 md:grid-cols-3">
+          {["“The UI is gorgeous and fast.”", "“Transcripts are instant for long calls.”", "“Our team workflows are simpler now.”"].map((q, i) => (
+            <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-white/80 backdrop-blur-xl">
+              {q}
             </div>
-            <p className="text-gray-400 text-center mt-4 max-w-xl mx-auto">
-              Transform your video content with AI-powered tools. Record, transcribe, and summarize with ease.
-            </p>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          <div className="py-12 border-b border-white/10">
-            <div className="flex flex-col md:flex-row justify-center items-center gap-8 text-gray-300">
-              <a href="mailto: hiteshwarmd@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors duration-300">
-                <Mail className="h-5 w-5" />
-                hiteshwarmd@gmail.com
-              </a>
-              <span className="hidden md:inline text-white/20">|</span>
-              <div className="flex items-center gap-2">
-                <Phone className="h-5 w-5" />
-                9310547634
-              </div>
-              <span className="hidden md:inline text-white/20">|</span>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5" />
-                Noida, India
-              </div>
+      {/* FAQ */}
+      <section className="mx-auto mt-24 max-w-5xl px-4">
+        <h3 className="mb-6 text-center text-2xl font-semibold">Frequently asked questions</h3>
+        <div className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03]">
+          {[{
+            q: "Can I use the Free plan for client work?",
+            a: "Yes. Free is great for personal or client pilots with limited AI runs.",
+          },{
+            q: "What’s included in Pro?",
+            a: "Unlimited AI transcriptions & summaries, 50 GB storage, teams & priority support.",
+          },{
+            q: "Can I cancel anytime?",
+            a: "Absolutely. Billing stops at the end of the current period.",
+          }].map((f, i) => (
+            <details key={i} className="group p-5 open:bg-white/[0.02]">
+              <summary className="cursor-pointer list-none text-white/90 transition hover:text-white">{f.q}</summary>
+              <p className="mt-2 text-white/60">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer id="contact" className="mt-24 border-t border-white/10">
+        <div className="mx-auto max-w-7xl px-4 py-12">
+          <div className="flex flex-col items-center gap-6 text-center">
+            <div className="flex items-center gap-3">
+              <img alt="logo" src="/logo.svg" className="h-9 w-9" />
+              <span className="text-xl font-semibold">VidSphere</span>
             </div>
-          </div>
-
-          <div className="py-6 text-center text-gray-400">
-            <p>© 2025 VidSphere. All rights reserved.</p>
+            <p className="max-w-2xl text-white/60">Transform your video content with AI‑powered tools. Record, transcribe, summarize, and ship.</p>
+            <div className="flex flex-col items-center gap-4 text-white/80 md:flex-row md:gap-8">
+              <a href="mailto:hiteshwarmd@gmail.com" className="flex items-center gap-2 hover:text-white"><Mail className="h-5 w-5" /> hiteshwarmd@gmail.com</a>
+              <span className="hidden text-white/20 md:inline">|</span>
+              <div className="flex items-center gap-2"><Phone className="h-5 w-5" /> 9310547634</div>
+              <span className="hidden text-white/20 md:inline">|</span>
+              <div className="flex items-center gap-2"><MapPin className="h-5 w-5" /> Noida, India</div>
+            </div>
+            <p className="pt-4 text-sm text-white/40">© {new Date().getFullYear()} VidSphere. All rights reserved.</p>
           </div>
         </div>
       </footer>
     </div>
   );
-};
-
-export default LandingPageNavBar;
+}

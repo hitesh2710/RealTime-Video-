@@ -1,18 +1,22 @@
-import { onAuthenticateUser } from '@/actions/user'
-import { redirect } from 'next/navigation'
-import React from 'react'
+import { onAuthenticateUser } from "@/actions/user";
+import { redirect } from "next/navigation";
 
-type Props = {}
+export default async function DashboardPage() {
+  const auth = await onAuthenticateUser();
 
-const DasboardPage = async (props: Props) => {
-  //Authentication
-  const auth = await onAuthenticateUser()
-  if (auth.status === 200 || auth.status === 201)
-    return redirect(`/dashboard/${auth.user?.workspace[0].id}`)
-
-  if (auth.status === 400 || auth.status === 500 || auth.status === 404) {
-    return redirect('/auth/sign-in')
+  // If authentication failed → redirect to login
+  if (!auth?.user || auth.status >= 400) {
+    redirect("/auth/sign-in");
   }
-}
 
-export default DasboardPage
+  const workspaces = auth.user.workspace || [];
+
+  // If user has no workspaces → redirect to login
+  if (!workspaces.length) {
+    redirect("/auth/sign-in");
+  }
+
+  // Safe redirect to workspace
+  const workspaceId = workspaces[0].id;
+  redirect(`/dashboard/${workspaceId}`);
+}

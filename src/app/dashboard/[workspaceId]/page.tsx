@@ -1,13 +1,8 @@
-import { getNotifications } from '@/actions/user'
-import {
-  getAllUserVideos,
-  getWorkspaceFolders,
-  getWorkSpaces,
-} from '@/actions/workspace'
-import CreateForlders from '@/components/global/create-folders'
-import CreateWorkspace from '@/components/global/create-workspace'
-import Folders from '@/components/global/folders'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { getAllUserVideos, getWorkspaceFolders } from "@/actions/workspace";
+import CreateForlders from "@/components/global/create-folders";
+import CreateWorkspace from "@/components/global/create-workspace";
+import Folders from "@/components/global/folders";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   dehydrate,
   HydrationBoundary,
@@ -35,40 +30,56 @@ const Page = async ({ params: { workspaceId } }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(query)}>
-      <div>
-        <Tabs
-          defaultValue="videos"
-          className="mt-6"
-        >
-          <div className="flex w-full justify-between items-center">
-            <TabsList className="bg-transparent gap-2 pl-0">
-              <TabsTrigger
-                className="p-[13px] px-6 rounded-full data-[state=active]:bg-[#252525]"
-                value="videos"
-              >
-                Videos
-              </TabsTrigger>
-              <TabsTrigger
-                value="archive"
-                className="p-[13px] px-6 rounded-full data-[state=active]:bg-[#252525]"
-              >
-                Archive
-              </TabsTrigger>
-            </TabsList>
-            <div className="flex gap-x-3">
-              <CreateWorkspace />
-              <CreateForlders workspaceId={workspaceId} />
-            </div>
+      <div className="relative">
+        {/* Subtle VidSphere backdrop */}
+        <div className="pointer-events-none absolute -inset-x-6 -inset-y-4 -z-10">
+          <div className="h-full w-full bg-[radial-gradient(75%_60%_at_50%_-10%,rgba(99,102,241,0.18),rgba(14,14,20,0))]" />
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 backdrop-blur-xl text-white">
+            <Tabs defaultValue="videos" className="w-full">
+              <div className="flex w-full items-center justify-between">
+                <TabsList className="bg-transparent p-0">
+                  <TabsTrigger
+                    value="videos"
+                    className="rounded-full px-6 py-[13px] text-white/80 data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                  >
+                    Videos
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="archive"
+                    className="rounded-full px-6 py-[13px] text-white/80 data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                  >
+                    Archive
+                  </TabsTrigger>
+                </TabsList>
+
+                <div className="flex gap-3">
+                  <CreateWorkspace />
+                  <CreateForlders workspaceId={workspaceId} />
+                </div>
+              </div>
+
+              <section className="py-6">
+                <TabsContent value="videos" className="m-0">
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl">
+                    <Folders workspaceId={workspaceId} />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="archive" className="m-0">
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-10 text-center text-white/70 backdrop-blur-xl">
+                    Archive coming soon.
+                  </div>
+                </TabsContent>
+              </section>
+            </Tabs>
           </div>
-          <section className="py-9">
-            <TabsContent value="videos">
-              <Folders workspaceId={workspaceId} />
-            </TabsContent>
-          </section>
-        </Tabs>
+        </div>
       </div>
     </HydrationBoundary>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
